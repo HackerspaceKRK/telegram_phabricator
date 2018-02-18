@@ -8,13 +8,15 @@ from telegram.ext import Updater, CommandHandler
 
 import config
 
-def create_task(phab, title):
+
+def create_task(title):
 	transactions = [
 		{'type': 'title', 'value': title},
 	]
 
 	# @TODO support exceptions/errors/blah :P
 
+	phab = Phabricator(host=config.PHABRICATOR_URL_API, token=config.PHABRICATOR_TOKEN)
 	result = phab.maniphest.edit(transactions=transactions)
 	return result
 
@@ -32,9 +34,7 @@ def handler_add_task(bot, update, args):
 
 	title = ' '.join(args)
 
-	global phab
-
-	result = create_task(phab, title=title)
+	result = create_task(title=title)
 	task_id = result.object['id']
 
 	url = '{}T{}'.format(config.PHABRICATOR_URL, task_id)
@@ -50,7 +50,6 @@ def error_callback(bot, update, error):
 if __name__ == '__main__':
 	logging.basicConfig(level=logging.DEBUG)
 
-	phab = Phabricator(host=config.PHABRICATOR_URL_API, token=config.PHABRICATOR_TOKEN)
 	telegram_updater = Updater(config.TELEGRAM_TOKEN)
 	telegram_dispatcher = telegram_updater.dispatcher
 

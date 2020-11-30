@@ -21,18 +21,18 @@ def create_task(title):
 	return result
 
 
-def handler_add_task(bot, update, args):
-	if update.message.chat.title != config.TELEGRAM_CHAT_NAME:
+def handler_add_task(update, context):
+	if update.message.chat and update.message.chat.title != config.TELEGRAM_CHAT_NAME:
 		update.message.reply_text('Niedozwolona grupa czatu!')
 		return
 
-	if len(args) < 3:
+	if len(context.args) < 3:
 		update.message.reply_text('Podaj, proszę, tytuł jako argument')
 		return
 
-	args[0] = args[0].capitalize()
+	context.args[0] = context.args[0].capitalize()
 
-	title = ' '.join(args)
+	title = ' '.join(context.args)
 
 	result = create_task(title=title)
 	task_id = result.object['id']
@@ -43,8 +43,8 @@ def handler_add_task(bot, update, args):
 	update.message.reply_text(reply, parse_mode=ParseMode.MARKDOWN)
 
 
-def error_callback(bot, update, error):
-	pprint(error)
+def error_callback(update, context):
+	pprint(context.error)
 
 
 if __name__ == '__main__':

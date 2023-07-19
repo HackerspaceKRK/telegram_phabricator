@@ -34,6 +34,9 @@ def handler_add_task(update, context):
 
 	title = ' '.join(context.args)
 
+	title += '\n*Dodane przez:* {} '.format(update.message.from_user.name)
+	title += '\nlink do wiadomości: {} '.format(update.message.link)
+
 	result = create_task(title=title)
 	task_id = result.object['id']
 

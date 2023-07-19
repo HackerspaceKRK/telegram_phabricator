@@ -9,9 +9,10 @@ from telegram.ext import Updater, CommandHandler
 import config
 
 
-def create_task(title):
+def create_task(title, description):
 	transactions = [
 		{'type': 'title', 'value': title},
+		{'type': 'description', 'value': description},
 	]
 
 	# @TODO support exceptions/errors/blah :P
@@ -34,7 +35,11 @@ def handler_add_task(update, context):
 
 	title = ' '.join(context.args)
 
-	result = create_task(title=title)
+	description = ''
+	description += ' *Dodane przez:* {} '.format(update.message.from_user.name)
+	description += '\nlink do wiadomości: {} '.format(update.message.link)
+
+	result = create_task(title=title, description=description)
 	task_id = result.object['id']
 
 	url = '{}T{}'.format(config.PHABRICATOR_URL, task_id)

@@ -39,7 +39,7 @@ def handler_add_task(update, context):
 	description += ' *Dodane przez:* {} '.format(update.message.from_user.name)
 	description += '\nlink do wiadomości: {} '.format(update.message.link)
 
-	result = create_task(title=title)
+	result = create_task(title=title, description=description)
 	task_id = result.object['id']
 
 	url = '{}T{}'.format(config.PHABRICATOR_URL, task_id)

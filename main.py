@@ -30,12 +30,20 @@ def handler_add_task(update, context):
 	if len(context.args) < 3:
 		update.message.reply_text('Podaj, proszę, tytuł jako argument')
 		return
+	
+	msg_text = update.message.text_markdown.lstrip('/add\\_task').strip() # need to work on this, because context.args doesn't indicate new lines
+	first_newline = msg_text.find('\n')
 
-	context.args[0] = context.args[0].capitalize()
-
-	title = ' '.join(context.args)
-
+	title = ''
 	description = ''
+
+	if first_newline == -1:
+		title = msg_text.capitalize()
+	else:
+		title = msg_text[:first_newline].capitalize()
+		description = msg_text[first_newline + 1:].strip()
+		description += '\n\n'
+
 	description += ' *Dodane przez:* {} '.format(update.message.from_user.name)
 	description += '\nlink do wiadomości: {} '.format(update.message.link)
 

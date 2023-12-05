@@ -1,33 +1,21 @@
 #!/usr/bin/env python3
-import logging
-from pprint import pprint
-from functools import wraps
-from typing import Optional, Union
-from phabricator import Phabricator
-from telegram import (
-    Message,
-    Update,
-    ForceReply,
-    InlineKeyboardMarkup,
-    InlineKeyboardButton,
-)
-from telegram.ext import (
-    Application,
-    ApplicationBuilder,
-    Updater,
-    CommandHandler,
-    CallbackContext,
-    CallbackQueryHandler,
-    MessageHandler,
-    filters,
-)
-from telegram.constants import ParseMode
-
 import json
-import config
+import logging
 import random
-import string
 import re
+import string
+from pprint import pprint
+from typing import Optional, Union
+
+from phabricator import Phabricator
+from telegram import (ForceReply, InlineKeyboardButton, InlineKeyboardMarkup,
+                      Message, Update)
+from telegram.constants import ParseMode
+from telegram.ext import (Application, ApplicationBuilder, CallbackContext,
+                          CallbackQueryHandler, CommandHandler, MessageHandler,
+                          Updater, filters)
+
+import config
 
 
 def create_task(title: str, description: str):

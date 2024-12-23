@@ -1,2 +1,2 @@
-phabricator==0.8.0
-python-telegram-bot==20.7
+phabricator==0.9.1
+python-telegram-bot==21.9

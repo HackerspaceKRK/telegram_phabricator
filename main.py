@@ -87,8 +87,12 @@ async def handler_add_task(update: Union[str, "Update"], context: CallbackContex
         return
     if not description:
         description = ""
+    user = update.message.from_user.name
+    user = user.replace('_', '\\_')
+    print(f"User: {update.message.from_user.name} -> {user}")
 
-    description += "*Dodane przez:* {} ".format(update.message.from_user.name)
+
+    description += "**Dodane przez:** {} ".format(user)
     description += "\nlink do wiadomości: {} ".format(update.message.link)
 
     confirmation_id = gen_id()
